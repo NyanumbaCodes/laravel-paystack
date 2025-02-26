@@ -1,5 +1,5 @@
 {
-    "name": "unicodeveloper/laravel-paystack",
+    "name": "nyanumba-codes/laravel-paystack",
     "description": "A Laravel Package for Paystack",
     "keywords": [
         "php",
@@ -23,6 +23,10 @@
         {
             "name": "iamfunsho",
             "email": "info@devfunsho.com"
+        }
+        {
+            "name": "Steve Nyanumba",
+            "email": "reach@stevenyanumba.com"
         }
     ],
     "minimum-stability": "stable",
