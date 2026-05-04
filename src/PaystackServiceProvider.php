@@ -15,20 +15,12 @@ use Illuminate\Support\ServiceProvider;
 
 class PaystackServiceProvider extends ServiceProvider
 {
-
-    /*
-    * Indicates if loading of the provider is deferred.
-    *
-    * @var bool
-    */
-    protected $defer = false;
-
     /**
     * Publishes all the config file this package needs to function
     */
     public function boot()
     {
-        $config = realpath(__DIR__.'/../resources/config/paystack.php');
+        $config = __DIR__.'/../resources/config/paystack.php';
 
         $this->publishes([
             $config => config_path('paystack.php')
@@ -40,19 +32,10 @@ class PaystackServiceProvider extends ServiceProvider
     */
     public function register()
     {
-        $this->app->bind('laravel-paystack', function () {
+        $this->mergeConfigFrom(__DIR__.'/../resources/config/paystack.php', 'paystack');
 
+        $this->app->singleton('laravel-paystack', function () {
             return new Paystack;
-
         });
-    }
-
-    /**
-    * Get the services provided by the provider
-    * @return array
-    */
-    public function provides()
-    {
-        return ['laravel-paystack'];
     }
 }

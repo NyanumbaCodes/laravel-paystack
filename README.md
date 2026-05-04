@@ -10,7 +10,13 @@
 
 ## Installation
 
-[PHP](https://php.net) 5.4+ or [HHVM](http://hhvm.com) 3.3+, and [Composer](https://getcomposer.org) are required.
+[PHP](https://php.net) and [Composer](https://getcomposer.org) are required.
+
+Supported Laravel versions:
+
+- Laravel 6.x through 13.x
+
+Supported PHP versions depend on the Laravel version you install this package with. For Laravel 13, use PHP 8.3+.
 
 To get the latest version of Laravel Paystack, simply require it
 
@@ -28,7 +34,9 @@ You'll then need to run `composer install` or `composer update` to download it a
 
 
 
-Once Laravel Paystack is installed, you need to register the service provider. Open up `config/app.php` and add the following to the `providers` key.
+Laravel package auto-discovery will register the service provider and facade automatically.
+
+If you are using an older Laravel version without package auto-discovery, register the service provider manually by adding the following to the `providers` array in `config/app.php`:
 
 ```php
 'providers' => [
@@ -38,19 +46,9 @@ Once Laravel Paystack is installed, you need to register the service provider. O
 ]
 ```
 
-> If you use **Laravel >= 5.5** you can skip this step and go to [**`configuration`**](https://github.com/unicodeveloper/laravel-paystack#configuration)
+If you are using an older Laravel version without package auto-discovery, you may also register the facade manually:
 
-* `Unicodeveloper\Paystack\PaystackServiceProvider::class`
-
-Also, register the Facade like so:
-
-```php
-'aliases' => [
-    ...
-    'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
-    ...
-]
-```
+* `Unicodeveloper\Paystack\Facades\Paystack::class`
 
 ## Configuration
 
@@ -71,25 +69,25 @@ return [
      * Public Key From Paystack Dashboard
      *
      */
-    'publicKey' => getenv('PAYSTACK_PUBLIC_KEY'),
+    'publicKey' => env('PAYSTACK_PUBLIC_KEY'),
 
     /**
      * Secret Key From Paystack Dashboard
      *
      */
-    'secretKey' => getenv('PAYSTACK_SECRET_KEY'),
+    'secretKey' => env('PAYSTACK_SECRET_KEY'),
 
     /**
      * Paystack Payment URL
      *
      */
-    'paymentUrl' => getenv('PAYSTACK_PAYMENT_URL'),
+    'paymentUrl' => env('PAYSTACK_PAYMENT_URL', 'https://api.paystack.co'),
 
     /**
      * Optional email address of the merchant
      *
      */
-    'merchantEmail' => getenv('MERCHANT_EMAIL'),
+    'merchantEmail' => env('MERCHANT_EMAIL'),
 
 ];
 ```
@@ -150,7 +148,7 @@ Route::post('/pay', [
 OR
 
 ```php
-// Laravel 8 & 9
+// Laravel 8+
 Route::post('/pay', [App\Http\Controllers\PaymentController::class, 'redirectToGateway'])->name('pay');
 ```
 
@@ -171,7 +169,7 @@ Route::get('payment/callback', [
 OR
 
 ```php
-// Laravel 8 & 9
+// Laravel 8+
 Route::get('/payment/callback', [App\Http\Controllers\PaymentController::class, 'handleGatewayCallback']);
 ```
 
